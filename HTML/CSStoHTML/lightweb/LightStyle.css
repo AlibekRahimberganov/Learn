@@ -1,0 +1,10 @@
+body{
+    background-color: #4D4D4D;
+}
+h1, h2, h3, h4, h5, h6{
+    font-style: italic;
+}
+p{
+    font-size: 125%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
