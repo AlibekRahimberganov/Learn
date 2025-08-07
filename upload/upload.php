@@ -3,13 +3,13 @@
     <title> Upload CSV </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8"/>    
-</head>
-<body>
-<style>
+    <style>
     body{
         background-color: lightblue;
     }
 </style>
+</head>
+<body>
     <form method="POST" enctype="multipart/form-data">
         <label> Choose the file
             <input type="file" name="data">
