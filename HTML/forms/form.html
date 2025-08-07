@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<head lang="eng-us">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<style>
+    button {
+        margin-left: 20px;
+    }
+    div {
+        font-size: 20px;
+        color: red;
+    }
+</style>
+<body>
+<title> Practicing Forms </title>
+
+<div> Button </div> <br> <br>
+    <button type="button" onclick="alert( 'Hello! :)' )"> click </button>
+<br> <br><div> "Fieldset"</div> <br>
+
+    <form action="form.php" method="post">
+        <fieldset>
+            <legend> So'rovnomani to'ldiring </legend>
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="fname"><br>
+            <label for="lname">Last name:</label><br>
+            <input type="text" id="lname" name="lname"><br><br>
+            <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+
+<br> <br> <div>"Select" type list</div> <br> <br> 
+    <form>
+        <label for="cars"> Choose your favourite: </label>
+        <select id="cars" name="cars" multiple>
+            <option value="volvo"> Volvo</option>
+            <option value="Mercedes Benz"> Mercedes Benz</option>
+            <option value="BMW"> BMW</option>
+            <option value="VW"> VolksWagen </option>
+            <option value="Chevrolet"> Chevrolet</option>
+            <option value="RR"> Rolls Royce </option>
+            <option value="Jeep"> Jeep</option>
+        </select>
+        <input type="submit">
+    </form>
+    <br>
+<br> <br><div>"Datalist"</div> <br>
+    <form>
+        <label for="choosing browser">Choose your favourite browser:</label>
+        <input list="browsers">
+        <datalist id="browsers">
+            <option value="Chrome">
+            <option value="Chromium">
+            <option value="FireFox">
+            <option value="Edge">
+            <option value="Opera">
+            <option value="Safari"> 
+        </datalist>
+    </form>
+<br> <br><div> Input text type <br> </div>
+    <form>
+        <label for="fname"> First Name:</label> <br>
+        <input type="text" id="fname" name="fname"> <br>
+        <label for="lname"> Last Name: </label> <br>
+        <input type="text" id="lname" name="lname"> <br>
+    </form> 
+<br> <br><div> Password </div> <br>
+    <form>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="pwd">Password:</label><br>
+        <input type="password" id="pwd" name="pwd">
+    </form>       
+<br> <br> <div> "Submit" </div>
+    <form action="/action_page.php">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</head>
