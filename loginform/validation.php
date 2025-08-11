@@ -8,8 +8,7 @@
         $_SESSION['attempt'] = 0;
     }
 
-    if(isset($_SESSION['ban_time']))
-    {
+    function check_ban_time(){
         if(time() <= $_SESSION['ban_time'])
         {
             echo "YOU ARE BANNED FOR A FEW MINUTES! <br> BAN EXPIRATION TIME: " . date("h:i:s",$_SESSION['ban_time']) . "<br>";
@@ -21,28 +20,36 @@
             $_SESSION['attempt'] = 0;
         }
     }
-    else
-    {
-        if(isset($_POST['submit_button']))
+    function ban_time(){
+        if(isset($_SESSION['ban_time']))
         {
-            if($_POST['val_email'] == $email && $_POST['val_password'] == $password)
-            {
-                echo "SUCCESSFULLY LOGGED IN! <br>";
-                session_destroy();
-                exit();
-            }
-            else
-            {
-                $_SESSION['attempt']++;
-                header("Location: " . $_SERVER['PHP_SELF']);
-                if($_SESSION['attempt'] == 3)
-                {
-                    $_SESSION['ban_time'] = time() + 600;
-                }
-            }
+            check_ban_time();
         }
-
     }
+    function set_bantime(){
+        if($_SESSION['attempt'] == 3)
+        {
+            $_SESSION['ban_time'] = time() + 600;
+        }
+    }
+    function iscorrect($email, $password){
+        if($_POST['val_email'] == $email && $_POST['val_password'] == $password)
+        {
+            echo "SUCCESSFULLY LOGGED IN! <br>";
+            session_destroy();
+            exit();
+        }
+        $_SESSION['attempt']++;
+        header("Location: " . $_SERVER['PHP_SELF']);
+        set_bantime();
+            
+    }
+    ban_time();
+    if(isset($_POST['submit_button']))
+    {
+        iscorrect($email, $password);
+    }
+
 ?>
 <!DOCTYPE html>
 <html>
