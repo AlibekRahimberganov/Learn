@@ -12,7 +12,7 @@
 <?php
     $directory = "/var/www/html/project/imagelist/uploads/";
     $rows = 5;
-    function GetFilesFromDir($directory){
+    function getFilesFromDir($directory){
         $files = scandir($directory);
         $files = array_diff($files, ['.', '..']);
         return $files;
