@@ -10,7 +10,11 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS POST_DATA (
 	txt	TEXT NOT NULL,
 	posttime TEXT
 )");
-    
+
+if (!is_dir(__DIR__ . "/uploads/")) {
+    mkdir(__DIR__ . "/uploads/", 0755, true);  // 0755 - huquqlar, true - rekursiv yaratish
+}
+
 if(isset($_POST['id']))
 {
     $id = (int) $_POST['id'];
