@@ -2,9 +2,12 @@
 $pdo = new PDO("sqlite:data.db");
 $pdo->exec("CREATE TABLE IF NOT EXISTS POST_DATA (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    txt TEXT NOT NULL
+    picture	BLOB,
+	title TEXT NOT NULL,
+	txt	TEXT NOT NULL,
+	posttime TEXT
 )");
-    $statement = $pdo->query("SELECT ID, txt FROM POST_DATA");
+    $statement = $pdo->query("SELECT ID, picture, title, txt, posttime FROM POST_DATA");
     $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 function show_all_posts(){
@@ -17,18 +20,16 @@ function show_all_posts(){
             </tr>
             ";
             foreach( $GLOBALS['posts'] as $i){
-                echo "<tr> 
-                    <td>"
-                . $i['txt'] . "
-                </td>
-
-                <td>
+                echo "<tr><td> Title: ". $i['title'] . "<br>";
+                if(!empty($i['picture'])){
+                    $imgData = base64_encode($i['picture']);
+                    echo "<img src='data:image/jpeg;base64,$imgData' alt='Post image' style='max-width:auto; height:500px;'><br>";
+                }
+                echo "<br>" . $i['txt'] . "
                 <form action='edit.php' method='POST'> 
                     <input type='hidden' name='id' value='". $i['ID'] . "'>
                     <button type='submit' name='edit'> Edit  </button>
                 </form>
-                </td>
-                <td>
                 <form method='POST'>
                     <input type='hidden' name='id' value='". $i['ID'] . "'>
                     <button type='submit' name='delete'> Delete this post</button>
