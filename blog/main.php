@@ -1,14 +1,19 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $pdo = new PDO("sqlite:data.db");
 $pdo->exec("CREATE TABLE IF NOT EXISTS POST_DATA (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    picture	BLOB,
+    picture	text,
 	title TEXT NOT NULL,
 	txt	TEXT NOT NULL,
 	posttime TEXT
 )");
     $statement = $pdo->query("SELECT ID, picture, title, txt, posttime FROM POST_DATA");
     $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    $images = scandir("/var/www/html/project/blog/uploads/");
+    $images = array_diff($images, ['.','..']);
 
 function show_all_posts(){
     if(!empty($GLOBALS['posts']))
@@ -22,8 +27,8 @@ function show_all_posts(){
             foreach( $GLOBALS['posts'] as $i){
                 echo "<tr><td> Title: ". $i['title'] . "<br>";
                 if(!empty($i['picture'])){
-                    $imgData = base64_encode($i['picture']);
-                    echo "<img src='data:image/jpeg;base64,$imgData' alt='Post image' style='max-width:auto; height:500px;'><br>";
+                    $path = "uploads/" . $i['picture'];
+                    echo "<img src='$path' style='max-width:auto; height:500px;'><br>";
                 }
                 echo "<br>" . $i['txt'] . "
                 <form action='edit.php' method='POST'> 

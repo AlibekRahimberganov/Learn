@@ -4,11 +4,14 @@ ini_set('display_errors', 1);
 $pdo = new PDO("sqlite:data.db");
 $pdo->exec("CREATE TABLE IF NOT EXISTS POST_DATA (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    picture	BLOB,
+    picture	text,
 	title TEXT NOT NULL,
 	txt	TEXT NOT NULL,
 	posttime TEXT
 )");
+if (!is_dir(__DIR__ . "/uploads/")) {
+    mkdir(__DIR__ . "/uploads/", 0755, true);  // 0755 - huquqlar, true - rekursiv yaratish
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,20 +42,24 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS POST_DATA (
     {
         if(!empty($_POST['txt']) && !empty($_POST['title']))
         {
-            $imageData = null;
-            if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-                $imageData = file_get_contents($_FILES['image']['tmp_name']);
-            }
-
             $posttime = date("Y-m-d H:i:s");
-            
-    
-            $statement = $pdo->prepare("INSERT INTO POST_DATA (picture, title, txt, posttime) VALUES (:picture, :title, :txt, :posttime)");
-            $statement->bindValue(':picture', $imageData, PDO::PARAM_LOB);
-            $statement->bindValue(':title', $_POST['title'], PDO::PARAM_STR);
-            $statement->bindValue(':txt', $_POST['txt'], PDO::PARAM_STR);
-            $statement->bindValue(':posttime', $posttime, PDO::PARAM_STR);
-            $statement->execute();
+
+            if(!empty($_FILES['image']['name'])) {
+                move_uploaded_file($_FILES['image']['tmp_name'], "/var/www/html/project/blog/uploads/" . $_FILES['image']['name']);
+                $statement = $pdo->prepare("INSERT INTO POST_DATA (picture, title, txt, posttime) VALUES (:picture, :title, :txt, :posttime)");
+                $statement->bindValue(':picture', $_FILES['image']['name']);
+                $statement->bindValue(':title', $_POST['title'], PDO::PARAM_STR);
+                $statement->bindValue(':txt', $_POST['txt'], PDO::PARAM_STR);
+                $statement->bindValue(':posttime', $posttime, PDO::PARAM_STR);
+                $statement->execute();
+            }
+            else{
+                $statement = $pdo->prepare("INSERT INTO POST_DATA (title, txt, posttime) VALUES (:title, :txt, :posttime)");
+                $statement->bindValue(':title', $_POST['title'], PDO::PARAM_STR);
+                $statement->bindValue(':txt', $_POST['txt'], PDO::PARAM_STR);
+                $statement->bindValue(':posttime', $posttime, PDO::PARAM_STR);
+                $statement->execute();
+            }
             header("Location: main.php");
         }
     }
