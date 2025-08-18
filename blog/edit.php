@@ -5,7 +5,7 @@ ob_start();
 $pdo = new PDO("sqlite:data.db");
 $pdo->exec("CREATE TABLE IF NOT EXISTS POST_DATA (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    picture	BLOB,
+    picture	text,
 	title TEXT NOT NULL,
 	txt	TEXT NOT NULL,
 	posttime TEXT
@@ -18,8 +18,8 @@ if(isset($_POST['id']))
     $statement->execute(([':id' => $id]));
     $post = $statement->fetch(PDO::FETCH_ASSOC);
     if(!empty($post['picture'])){
-        $imgData = base64_encode($post['picture']);
-        echo "<img src='data:image/jpeg;base64,$imgData' alt='Post image' style='max-width:auto; height:500px;'><br>";
+        $path = "/uploads/" . $post['picture'];
+        echo "<img src='$path' alt='Post image' style='max-width:100%; height:500px;'><br>";
     }
     echo "Edit: <br>";
     echo "
@@ -43,10 +43,11 @@ if(isset($_POST['save']))
     $txt = $_POST['txt'];
     $newtitle = $_POST['title'];
     $posttime = date("Y-m-d H:i:s");
-
     $imageData = NULL;
-    if(isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK){
-        $imageData = file_get_contents($_FILES['image']['tmp_name']);
+
+    if(!empty($_FILES['image']['name'])){
+        $imageData = $_FILES['image']['name'];
+        move_uploaded_file($_FILES['image']['tmp_name'], "/var/www/html/project/blog/uploads/" . $_FILES['image']['name']);
     }
 
     if($imageData !== NULL){
