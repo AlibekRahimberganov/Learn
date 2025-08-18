@@ -10,7 +10,7 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS POST_DATA (
 	posttime TEXT
 )");
 if (!is_dir(__DIR__ . "/uploads/")) {
-    mkdir(__DIR__ . "/uploads/", 0755, true);  // 0755 - huquqlar, true - rekursiv yaratish
+    mkdir(__DIR__ . "/uploads/", 0755, true);
 }
 ?>
 <!DOCTYPE html>
@@ -45,9 +45,11 @@ if (!is_dir(__DIR__ . "/uploads/")) {
             $posttime = date("Y-m-d H:i:s");
 
             if(!empty($_FILES['image']['name'])) {
-                move_uploaded_file($_FILES['image']['tmp_name'], "/var/www/html/project/blog/uploads/" . $_FILES['image']['name']);
+                $img_ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+                $hash = hash('sha256', $_FILES['image']['name']) . "." . $img_ext;
+                move_uploaded_file($_FILES['image']['tmp_name'], "/var/www/html/project/blog/uploads/" . $hash);
                 $statement = $pdo->prepare("INSERT INTO POST_DATA (picture, title, txt, posttime) VALUES (:picture, :title, :txt, :posttime)");
-                $statement->bindValue(':picture', $_FILES['image']['name']);
+                $statement->bindValue(':picture', $hash);
                 $statement->bindValue(':title', $_POST['title'], PDO::PARAM_STR);
                 $statement->bindValue(':txt', $_POST['txt'], PDO::PARAM_STR);
                 $statement->bindValue(':posttime', $posttime, PDO::PARAM_STR);
