@@ -1,18 +1,4 @@
 <?php
-
-function show_cropped($crop, $address, $ext)
-{
-    if ($ext == 'jpeg' || $ext == 'jpg') {
-        imagejpeg($crop, $address);
-    } else if ($ext == 'png') {
-        imagepng($crop, $address);
-    } else if ($ext == 'gif') {
-        imagegif($crop, $address);
-    }
-
-    echo " <br><br><br> 
-        <img src='uploads/" . basename($address) . "'>";
-}
 function start_crop($width, $height)
 {
     $dir = __DIR__ . "/uploads/";
@@ -22,6 +8,25 @@ function start_crop($width, $height)
     move_uploaded_file($_FILES['image']['tmp_name'], $dir . $_FILES['image']['name']);
     crop($width, $height);
 }
+function set_watermark($image)
+{
+    $color = imagecolorallocate($image, 200, 200, 200);
+    $y = imagesy($image) - 20;
+    imagettftext($image, 20, 0, 10, $y, $color, __DIR__ . "/font/markfont.ttf", "github.com/AlibekRahimberganov");
+}
+function show_cropped($crop, $address, $ext)
+{
+    if ($ext == 'jpeg' || $ext == 'jpg') {
+        imagejpeg($crop, $address);
+    } else if ($ext == 'png') {
+        imagepng($crop, $address);
+    } else if ($ext == 'gif') {
+        imagegif($crop, $address);
+    }
+    echo " <br><br><br> 
+        <img src='uploads/" . basename($address) . "'>";
+}
+
 function crop($width, $height)
 {
     $address = __DIR__ . "/uploads/" . $_FILES['image']['name'];
@@ -38,8 +43,8 @@ function crop($width, $height)
     }
 
     $crop = imagecrop($source, ['x' => 0, 'y' => 0, 'width' => $width, 'height' => $height]);
-
     if ($crop !== false) {
+        set_watermark($crop);
         show_cropped($crop, $address, $ext);
     }
 }
