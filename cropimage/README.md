@@ -8,4 +8,4 @@
 <h3>
     Note:
 </h3>
-<p>PHP file creates <b>uploads</b> directory to save cropped images there</p>
+<p>PHP file will create <b>uploads</b> directory to save cropped images.</p>
