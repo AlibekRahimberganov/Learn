@@ -5,6 +5,17 @@ require __DIR__ . '/vendor/autoload.php';
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
+function set_watermark($img)
+{
+    $height = $img->height();
+    $img->text('github.com/AlibekRahimberganov', 10, $height - 20, function ($font) {
+        $font->file('font/markfont.ttf');
+        $font->size(20);
+        $font->color('#fff');
+        $font->align('left');
+        $font->valign('bottom');
+    });
+}
 function crop_image($width, $height)
 {
     $manager = new ImageManager(new Driver());
@@ -13,6 +24,8 @@ function crop_image($width, $height)
 
     $image->crop($width, $height);
     $hash_name = hash('sha256', $_FILES['image']['name']);
+    $image->save(__DIR__ . '/uploads/' . $hash_name);
+    set_watermark($image);
     $image->save(__DIR__ . '/uploads/' . $hash_name);
     unlink('uploads/' . $_FILES['image']['name']);
     echo "<img src='uploads/" . $hash_name . "'>";
