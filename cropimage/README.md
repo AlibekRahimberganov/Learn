@@ -1,6 +1,7 @@
 <h1>Crop Image</h1>
 <h3>Usage:</h3>
 <ul>
+    <li>PHP file requires <b>font</b> directory and <b>markfont.ttf</b>file (font/markfont.ttf)</li>
     <li>Upload an image file</li>
     <li>Enter the size (like 300x300, 1080x3000...) </li>
     <li>Then you can download the picture</li>
