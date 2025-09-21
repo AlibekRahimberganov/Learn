@@ -1,4 +1,4 @@
-# Blogsite with PHP & MySQL
+# Blogsite with MySQL
 
 This project is a simple blog platform where users can register, log in, create posts, and view their profiles.  
 It is built using **PHP** and **MySQL**.
