@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$db_servername = ""; /* Servername like for example: localhost */
+$db_servername = ""; /* Servername for example: localhost */
 $db_username = ""; /* sql username */
 $db_password = ""; /* sql password */
 
