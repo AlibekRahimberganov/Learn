@@ -10,13 +10,19 @@ It is built using **PHP** and **MySQL**.
 - Apache2 / Nginx
 
 ## Installation
+Step 1:
 Place the project into your server directory:  
 - For Linux Apache2: `/var/www/html/`
+
+Step 2:
 Create a MySQL database:
 ```sql
 CREATE DATABASE blogdb;
 ```
+Step 3:
 Configure database settings inside `config.php`.
+
+Step 4:
 Start your server and open in browser:
 ```
 http://localhost/project/
